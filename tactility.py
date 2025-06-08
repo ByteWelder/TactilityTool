@@ -11,7 +11,7 @@ import zipfile
 
 esp_platforms = ["esp32", "esp32s3"]
 ttbuild_path = ".tactility"
-ttbuild_version = "0.1.0"
+ttbuild_version = "0.2.0"
 ttbuild_properties_file = "tactility.properties"
 ttbuild_cdn = "https://cdn.tactility.one"
 ttbuild_sdk_json_validity = 3600  # seconds
@@ -190,7 +190,7 @@ def validate_self(sdk_json):
     if re.search(tool_compatibility, ttbuild_version) is None:
         print_error("The tool is not compatible anymore.")
         print_error("Run 'tactility.py updateself' to update.")
-        sys.exit()
+        sys.exit(1)
 
 def sdk_download(version, platform):
     sdk_root_dir = get_sdk_root_dir(version, platform)
@@ -377,7 +377,7 @@ if __name__ == "__main__":
     if action_arg == "build":
         if len(sys.argv) < 3:
             print_help()
-            sys.exit()
+            exit_with_error("Commandline parameter missing")
         else:
             platform_arg = sys.argv[2]
             build_action(platform_arg)
@@ -389,4 +389,4 @@ if __name__ == "__main__":
         update_self_action()
     else:
         print_help()
-        sys.exit()
+        exit_with_error("Unknown commandline parameter")
