@@ -1,7 +1,7 @@
 {
 	"toolCompatibility": "^0\\.[0-9]+\\.[0-9]+$",
 	"toolVersion": "0.2.0",
-	"toolDownloadUrl": "https://cdn.tactility.one/tactility.py",
+	"toolDownloadUrl": "https://raw.githubusercontent.com/ByteWelder/TactilityTool/refs/heads/main/tactility.py",
 	"versions": {
 		"0.4.0-dev" : { "platforms": [ "esp32", "esp32s3"] }
 	}
