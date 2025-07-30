@@ -17,7 +17,7 @@ platform_targets = ["esp32", "esp32s3"]
 platform_arguments = platform_targets.copy()
 platform_arguments.append("all")
 ttbuild_path = ".tactility"
-ttbuild_version = "1.1.0"
+ttbuild_version = "1.2.0"
 ttbuild_properties_file = "tactility.properties"
 ttbuild_cdn = "https://cdn.tactility.one"
 ttbuild_sdk_json_validity = 3600  # seconds
@@ -348,9 +348,6 @@ def build_action(platform_arg):
     if not use_local_sdk:
         if should_fetch_sdkconfig_files():
             fetch_sdkconfig_files()
-        # Update SDK cache
-        if should_update_sdk_json() and not update_sdk_json():
-            exit_with_error("Failed to retrieve SDK info")
         sdk_json = read_sdk_json()
         validate_self(sdk_json)
         if not "versions" in sdk_json:
@@ -451,6 +448,9 @@ if __name__ == "__main__":
     verbose = "--verbose" in sys.argv
     skip_build = "--skip-build" in sys.argv
     use_local_sdk = "--local-sdk" in sys.argv
+    # Update SDK cache (sdk.json)
+    if should_update_sdk_json() and not update_sdk_json():
+        exit_with_error("Failed to retrieve SDK info")
     # Actions
     if action_arg == "build":
         if len(sys.argv) < 3:
