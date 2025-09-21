@@ -1,11 +1,12 @@
 {
 	"toolCompatibility": "^.*$",
-	"toolVersion": "2.1.1",
+	"toolVersion": "2.2.0",
 	"toolDownloadUrl": "https://raw.githubusercontent.com/ByteWelder/TactilityTool/refs/heads/main/tactility.py",
 	"versions": {
 		"0.4.0" : { "platforms": [ "esp32", "esp32s3"] },
 		"0.5.0-SNAPSHOT" : { "platforms": [ "esp32", "esp32s3"] },
 		"0.5.0" : { "platforms": [ "esp32", "esp32s3"] },
-		"0.6.0-SNAPSHOT1" : { "platforms": [ "esp32", "esp32s3"] }
+		"0.6.0-SNAPSHOT1" : { "platforms": [ "esp32", "esp32s3"] },
+		"0.6.0-SNAPSHOT2" : { "platforms": [ "esp32", "esp32s3"] }
 	}
 }
