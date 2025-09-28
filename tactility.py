@@ -20,6 +20,7 @@ ttbuild_sdk_json_validity = 3600  # seconds
 ttport = 6666
 verbose = False
 use_local_sdk = False
+local_base_path = None
 valid_platforms = ["esp32", "esp32s3"]
 no_animations = False
 
@@ -126,9 +127,9 @@ def read_sdk_json():
     return json.load(json_file)
 
 def get_sdk_dir(version, platform):
-    global use_local_sdk
+    global use_local_sdk, local_base_path
     if use_local_sdk:
-        base_path = os.environ.get("TACTILITY_SDK_PATH")
+        base_path = local_base_path
         if base_path is None:
             exit_with_error("TACTILITY_SDK_PATH environment variable is not set")
         sdk_dir = os.path.join(base_path, platform, "TactilitySDK")
@@ -142,9 +143,10 @@ def get_sdk_dir(version, platform):
 def validate_local_sdks(platforms):
     if not use_local_sdk:
         return
-    base_path = os.environ.get("TACTILITY_SDK_PATH")
+    global local_base_path
+    base_path = local_base_path
     for platform in platforms:
-        sdk_dir = os.path.join(base_path, platform)
+        sdk_dir = os.path.join(base_path, platform, "TactilitySDK")
         if not os.path.isdir(sdk_dir):
             exit_with_error(f"Local SDK folder missing for {platform}: {sdk_dir}")
 
@@ -472,11 +474,14 @@ def build_action(manifest, platform_arg):
     platforms_to_build = get_manifest_target_platforms(manifest, platform_arg)
     
     if use_local_sdk:
+        global local_base_path
+        local_base_path = os.environ.get("TACTILITY_SDK_PATH")
         validate_local_sdks(platforms_to_build)
     
+    if should_fetch_sdkconfig_files(platforms_to_build):
+        fetch_sdkconfig_files(platforms_to_build)
+    
     if not use_local_sdk:
-        if should_fetch_sdkconfig_files(platforms_to_build):
-            fetch_sdkconfig_files(platforms_to_build)
         sdk_json = read_sdk_json()
         validate_self(sdk_json)
         if not "versions" in sdk_json:
