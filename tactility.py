@@ -131,7 +131,7 @@ def get_sdk_dir(version, platform):
         base_path = os.environ.get("TACTILITY_SDK_PATH")
         if base_path is None:
             exit_with_error("TACTILITY_SDK_PATH environment variable is not set")
-        sdk_dir = os.path.join(base_path, platform)
+        sdk_dir = os.path.join(base_path, platform, "TactilitySDK")
         if not os.path.isdir(sdk_dir):
             exit_with_error(f"Local SDK folder not found for platform {platform}: {sdk_dir}")
         return sdk_dir
