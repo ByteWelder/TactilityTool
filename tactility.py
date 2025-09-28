@@ -14,7 +14,7 @@ import shutil
 import configparser
 
 ttbuild_path = ".tactility"
-ttbuild_version = "2.3.2"
+ttbuild_version = "2.3.3"
 ttbuild_cdn = "https://cdn.tactility.one"
 ttbuild_sdk_json_validity = 3600  # seconds
 ttport = 6666
@@ -69,7 +69,7 @@ def print_help():
     print("")
     print("Options:")
     print("  --help                         Show this commandline info")
-    print("  --local-sdk                    Use SDK specified by environment variable TACTILITY_SDK_PATH")
+    print("  --local-sdk                    Use SDK specified by environment variable TACTILITY_SDK_PATH with platform subfolders matching target platforms.")
     print("  --skip-build                   Run everything except the idf.py/CMake commands")
     print("  --verbose                      Show extra console output")
     print("  --no-animations                Disable animations during building (e.g. for CI jobs)")
@@ -128,10 +128,25 @@ def read_sdk_json():
 def get_sdk_dir(version, platform):
     global use_local_sdk
     if use_local_sdk:
-        return os.environ.get("TACTILITY_SDK_PATH")
+        base_path = os.environ.get("TACTILITY_SDK_PATH")
+        if base_path is None:
+            exit_with_error("TACTILITY_SDK_PATH environment variable is not set")
+        sdk_dir = os.path.join(base_path, platform)
+        if not os.path.isdir(sdk_dir):
+            exit_with_error(f"Local SDK folder not found for platform {platform}: {sdk_dir}")
+        return sdk_dir
     else:
         global ttbuild_cdn
         return os.path.join(ttbuild_path, f"{version}-{platform}", "TactilitySDK")
+
+def validate_local_sdks(platforms):
+    if not use_local_sdk:
+        return
+    base_path = os.environ.get("TACTILITY_SDK_PATH")
+    for platform in platforms:
+        sdk_dir = os.path.join(base_path, platform)
+        if not os.path.isdir(sdk_dir):
+            exit_with_error(f"Local SDK folder missing for {platform}: {sdk_dir}")
 
 def get_sdk_root_dir(version, platform):
     global ttbuild_cdn
@@ -455,6 +470,10 @@ def build_action(manifest, platform_arg):
     # Environment validation
     validate_environment()
     platforms_to_build = get_manifest_target_platforms(manifest, platform_arg)
+    
+    if use_local_sdk:
+        validate_local_sdks(platforms_to_build)
+    
     if not use_local_sdk:
         if should_fetch_sdkconfig_files(platforms_to_build):
             fetch_sdkconfig_files(platforms_to_build)
