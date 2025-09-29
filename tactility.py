@@ -132,21 +132,22 @@ def get_sdk_dir(version, platform):
         base_path = local_base_path
         if base_path is None:
             exit_with_error("TACTILITY_SDK_PATH environment variable is not set")
-        sdk_dir = os.path.join(base_path, platform, "TactilitySDK")
+        sdk_parent_dir = os.path.join(base_path, f"{version}-{platform}")
+        sdk_dir = os.path.join(sdk_parent_dir, "TactilitySDK")
         if not os.path.isdir(sdk_dir):
             exit_with_error(f"Local SDK folder not found for platform {platform}: {sdk_dir}")
         return sdk_dir
     else:
-        global ttbuild_cdn
         return os.path.join(ttbuild_path, f"{version}-{platform}", "TactilitySDK")
 
-def validate_local_sdks(platforms):
+def validate_local_sdks(platforms, version):
     if not use_local_sdk:
         return
     global local_base_path
     base_path = local_base_path
     for platform in platforms:
-        sdk_dir = os.path.join(base_path, platform, "TactilitySDK")
+        sdk_parent_dir = os.path.join(base_path, f"{version}-{platform}")
+        sdk_dir = os.path.join(sdk_parent_dir, "TactilitySDK")
         if not os.path.isdir(sdk_dir):
             exit_with_error(f"Local SDK folder missing for {platform}: {sdk_dir}")
 
@@ -476,7 +477,7 @@ def build_action(manifest, platform_arg):
     if use_local_sdk:
         global local_base_path
         local_base_path = os.environ.get("TACTILITY_SDK_PATH")
-        validate_local_sdks(platforms_to_build)
+        validate_local_sdks(platforms_to_build, manifest["target"]["sdk"])
     
     if should_fetch_sdkconfig_files(platforms_to_build):
         fetch_sdkconfig_files(platforms_to_build)
