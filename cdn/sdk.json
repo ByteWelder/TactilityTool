@@ -10,6 +10,9 @@
 		"0.6.0-SNAPSHOT2" : { "platforms": [ "esp32", "esp32s3"] },
 		"0.6.0-SNAPSHOT3" : { "platforms": [ "esp32", "esp32s3"] },
 		"0.6.0-SNAPSHOT4" : { "platforms": [ "esp32", "esp32s3"] },
-		"0.6.0-SNAPSHOT5" : { "platforms": [ "esp32", "esp32s3"] }
+		"0.6.0-SNAPSHOT5" : { "platforms": [ "esp32", "esp32s3"] },
+		"0.6.0-SNAPSHOT6" : { "platforms": [ "esp32", "esp32s3"] },
+		"0.6.0-SNAPSHOT7" : { "platforms": [ "esp32", "esp32s3"] },
+		"0.6.0-SNAPSHOT8" : { "platforms": [ "esp32", "esp32s3"] }
 	}
 }
