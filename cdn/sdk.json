@@ -15,6 +15,8 @@
 		"0.6.0-SNAPSHOT7" : { "platforms": [ "esp32", "esp32s3"] },
 		"0.6.0-SNAPSHOT8" : { "platforms": [ "esp32", "esp32s3"] },
 		"0.6.0-SNAPSHOT9" : { "platforms": [ "esp32", "esp32s3"] },
-		"0.6.0-SNAPSHOT10" : { "platforms": [ "esp32", "esp32s3"] }
+		"0.6.0-SNAPSHOT10" : { "platforms": [ "esp32", "esp32s3"] },
+		"0.6.0-SNAPSHOT11" : { "platforms": [ "esp32", "esp32s3"] },
+		"0.6.0-SNAPSHOT12" : { "platforms": [ "esp32", "esp32s3"] }
 	}
 }
