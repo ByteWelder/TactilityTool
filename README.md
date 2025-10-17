@@ -10,14 +10,14 @@ Applications are expected to have a `tactility.properties` file with content lik
 
 ```properties
 [sdk]
-version = 0.4.0-dev
+version = 2.4.0
 ```
 
 ## Example usages
 
 **Building all targets**
 
-`python tactility.py build all`
+`python tactility.py build`
 
 **Building a specific target**
 
@@ -25,13 +25,13 @@ version = 0.4.0-dev
 
 **Testing the tool without building**
 
-`python tactility.py build all --skip-build`
+`python tactility.py build --skip-build`
 
 **Debugging issues**
 
 Show more output:
 
-`python tactility.py build all --verbose`
+`python tactility.py build --verbose`
 
 Remove temporary build files:
 
